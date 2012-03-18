@@ -56,8 +56,6 @@ import net.puppygames.applet.MiniGame;
 import net.puppygames.applet.RoamingFile;
 import net.puppygames.applet.effects.LabelEffect;
 import net.puppygames.applet.screens.DialogScreen;
-import net.puppygames.steam.Steam;
-import net.puppygames.steam.SteamException;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -4692,26 +4690,10 @@ public class WormGameState extends GameState {
 				GameScreen.getInstance().showHint(newRank.getHint());
 			}
 			SFX.newRank();
-			if (Game.isUsingSteam() && Steam.isCreated() && Steam.isSteamRunning()) {
-				try {
-				Steam.getUserStats().setAchievement(newRank.getName());
-				} catch (SteamException e) {
-					System.err.println("Failed to set achievement "+newRank.getName()+" due to "+e);
-				}
-				storeSteamStats = true;
-			}
 		}
 		metaState.medals.put(mf, n);
 
 		System.out.println("Awarded "+medal+" ("+n+")");
-		if (mf.isSteam() && Game.isUsingSteam() && Steam.isCreated() && Steam.isSteamRunning()) {
-			try {
-			Steam.getUserStats().setAchievement(mf.getName());
-			storeSteamStats = true;
-			} catch (SteamException e) {
-				System.err.println("Failed to set achievement "+mf.getName()+" due to "+e);
-		}
-		}
 
 		// Update medals earned this level too
 		if (!mf.getSuppressHint()) {
@@ -4735,14 +4717,6 @@ public class WormGameState extends GameState {
 			}
 		}
 
-		// Store steam stats
-		if (storeSteamStats) {
-			try {
-			Steam.getUserStats().storeStats();
-			} catch (SteamException e) {
-				System.err.println("Failed to store steam stats due to "+e);
-			}
-		}
 		return mf;
 	}
 

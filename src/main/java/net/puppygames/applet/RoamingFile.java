@@ -1,11 +1,6 @@
-/**
- *
- */
 package net.puppygames.applet;
 
 import java.io.File;
-
-import net.puppygames.steam.Steam;
 
 /**
  * {@link RoamingFile} is a cover for Files that might be either implemented using the Steam cloud, or in the local filesystem.
@@ -19,22 +14,11 @@ public class RoamingFile {
 	}
 
 	public boolean exists() {
-		if (Game.isUsingSteamCloud()) {
-			return Steam.getRemoteStorage().fileExists(path);
-		} else {
-			return new File(path).exists();
-		}
+		return new File(path).exists();
 	}
 
 	public boolean delete() {
-		if (Game.isUsingSteamCloud()) {
-			if (Game.DEBUG) {
-				System.out.println("Deleting steam file "+path);
-			}
-			return Steam.getRemoteStorage().fileDelete(path);
-		} else {
-			return new File(path).delete();
-		}
+		return new File(path).delete();
 	}
 
 	/**

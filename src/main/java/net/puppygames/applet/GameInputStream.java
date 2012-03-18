@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-import net.puppygames.steam.Steam;
-
 import org.lwjgl.BufferUtils;
 
 /**
@@ -23,9 +21,6 @@ public class GameInputStream extends InputStream {
 
 	/** File path relative to application's storage root */
 	private final String file;
-
-	/** Using Steam? */
-	private final boolean usingSteam;
 
 	/** File input stream, for when not using Steam... */
 	private final InputStream fis;
@@ -43,31 +38,9 @@ public class GameInputStream extends InputStream {
 	public GameInputStream(String file) throws IOException {
 		this.file = file;
 
-		usingSteam = Game.isUsingSteamCloud();
-		if (!usingSteam) {
-			fis = new BufferedInputStream(new FileInputStream(file));
-			bais = null;
-			is = fis;
-		} else {
-			fis = null;
-			bais = new ByteArrayInputStream(readSteamFile());
-			is = bais;
-		}
-	}
-
-	private byte[] readSteamFile() throws IOException {
-		if (!Steam.getRemoteStorage().fileExists(file)) {
-			throw new FileNotFoundException("Can't file Steam file "+file);
-		}
-
-		int size = Steam.getRemoteStorage().getFileSize(file);
-		System.out.println("Steam says file "+file+" is "+size+" bytes");
-		ByteBuffer byteBuffer = BufferUtils.createByteBuffer(size);
-		Steam.getRemoteStorage().fileRead(file, byteBuffer);
-		byte[] ret = new byte[byteBuffer.limit()];
-		byteBuffer.get(ret);
-		System.out.println("Successfully read Steam cloud file "+file);
-		return ret;
+		fis = new BufferedInputStream(new FileInputStream(file));
+		bais = null;
+		is = fis;
 	}
 
 	@Override

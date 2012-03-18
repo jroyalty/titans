@@ -44,9 +44,6 @@ import net.puppygames.applet.effects.Particle;
 import net.puppygames.applet.screens.DialogScreen;
 import net.puppygames.applet.screens.NagScreen;
 import net.puppygames.gamecommerce.shared.RegistrationDetails;
-import net.puppygames.steam.NotificationPosition;
-import net.puppygames.steam.Steam;
-import net.puppygames.steam.SteamException;
 
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
@@ -247,15 +244,6 @@ public class Worm extends MiniGame {
 
 		Particle.setMaxParticles(4096);
 		SoundCommand.setDefaultAttenuator(DEFAULT_ATTENUATOR_FEATURE);
-
-		if (isUsingSteam() && Steam.isCreated() && Steam.isSteamRunning()) {
-			Steam.getUtils().setOverlayNotificationPosition(NotificationPosition.TopRight);
-			try {
-			Steam.getUserStats().requestCurrentStats();
-			} catch (SteamException e) {
-				System.err.println("Failed to request user stats due to "+e);
-			}
-		}
 	}
 
 	public static void setInstance(Worm instance) {

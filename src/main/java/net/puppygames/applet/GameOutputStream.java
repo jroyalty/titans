@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
-import net.puppygames.steam.Steam;
-import net.puppygames.steam.SteamException;
-
 import org.lwjgl.BufferUtils;
 
 /**
@@ -84,12 +81,6 @@ public class GameOutputStream extends OutputStream {
 	}
 
 	private void readExisting() throws IOException {
-		if (!Steam.getRemoteStorage().fileExists(file)) {
-			if (Game.DEBUG) {
-				System.out.println("Steam says "+file+" does not exist");
-			}
-			return;
-		}
 		GameInputStream gis = new GameInputStream(file);
 		byte[] buf = new byte[BUFFER_SIZE];
 		int ret;
@@ -134,12 +125,6 @@ public class GameOutputStream extends OutputStream {
     	ByteBuffer byteBuffer = BufferUtils.createByteBuffer(baos.size());
     	byteBuffer.put(baos.toByteArray());
     	byteBuffer.flip();
-    	try {
-    		Steam.getRemoteStorage().fileWrite(file, byteBuffer);
-    		System.out.println("Wrote "+file+" to Steam cloud");
-    	} catch (SteamException e) {
-    		throw new IOException(e);
-    	}
     	baos.reset();
 	}
 

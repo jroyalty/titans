@@ -79,7 +79,6 @@ import net.puppygames.applet.screens.TitleScreen;
 import net.puppygames.gamecommerce.shared.GameInfo;
 import net.puppygames.gamecommerce.shared.GameInfoServerRemote;
 import net.puppygames.gamecommerce.shared.RegistrationDetails;
-import net.puppygames.steam.Steam;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -1386,8 +1385,6 @@ public abstract class Game extends Feature {
 			prefsSaver = null;
 		}
 
-
-		Steam.destroy();
 		AL.destroy();
 		Display.destroy();
 		System.exit(0);
@@ -2092,10 +2089,6 @@ public abstract class Game extends Feature {
 						framesTicked += ticksToDo;
 					}
 					render();
-					// Steam support
-					if (isUsingSteam()) {
-						Steam.tick();
-					}
 					Display.update();
 				}
 				if (DEBUG || forceSleep) {
@@ -2817,7 +2810,7 @@ public abstract class Game extends Feature {
 	 * @return true if we're able to use the Steam cloud
 	 */
 	public static boolean isUsingSteamCloud() {
-		return isUsingSteam() && Steam.isCreated() && Steam.isSteamRunning() && Steam.getRemoteStorage().isCloudEnabledForAccount() && Steam.getRemoteStorage().isCloudEnabledForApp();
+		return false;
 	}
 
 	/**
@@ -2831,7 +2824,7 @@ public abstract class Game extends Feature {
 	 * Initialise Steam.
 	 */
 	private static void initSteam() {
-		Steam.init(Game.appID);
+        // Do nothing.
 	}
 
 	/**
