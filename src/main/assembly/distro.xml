@@ -1,0 +1,67 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    
+    <id>distro</id>
+    
+    <formats>
+        <format>dir</format>
+    </formats>
+    
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>true</useProjectArtifact>
+            <excludes>
+                <exclude>org.lwjgl.lwjgl:lwjgl-platform</exclude>
+                <exclude>net.java.jinput:jinput-platform</exclude>
+            </excludes>
+        </dependencySet>
+
+        <dependencySet>
+            <includes>
+                <include>org.lwjgl.lwjgl:lwjgl-platform:jar:natives-linux</include>
+                <include>net.java.jinput:jinput-platform:jar:natives-linux</include>
+            </includes>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                    <exclude>META-INF/**</exclude>
+                    <exclude>*.pom</exclude>
+                </excludes>
+            </unpackOptions>
+            <outputDirectory>native/linux</outputDirectory>
+        </dependencySet>
+
+        <dependencySet>
+            <includes>
+                <include>org.lwjgl.lwjgl:lwjgl-platform:jar:natives-osx</include>
+                <include>net.java.jinput:jinput-platform:jar:natives-osx</include>
+            </includes>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                    <exclude>META-INF/**</exclude>
+                    <exclude>*.pom</exclude>
+                </excludes>
+            </unpackOptions>
+            <outputDirectory>native/osx</outputDirectory>
+        </dependencySet>
+
+        <dependencySet>
+            <includes>
+                <include>org.lwjgl.lwjgl:lwjgl-platform:jar:natives-windows</include>
+                <include>net.java.jinput:jinput-platform:jar:natives-windows</include>
+            </includes>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                    <exclude>META-INF/**</exclude>
+                    <exclude>*.pom</exclude>
+                </excludes>
+            </unpackOptions>
+            <outputDirectory>native/windows</outputDirectory>
+        </dependencySet>
+        
+    </dependencySets>
+    
+</assembly>
